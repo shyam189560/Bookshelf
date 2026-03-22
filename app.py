@@ -31,7 +31,9 @@ app = Flask(__name__)
 # CONFIG
 # =========================
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev_secret_key")
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+db_path = os.path.join(BASE_DIR, "database.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_path
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 app.config["BOOK_UPLOAD_FOLDER"] = os.path.join("static", "images", "books")
