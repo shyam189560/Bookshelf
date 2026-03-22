@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card book-detail-card">
+
+  <img class="book-img" src="{{ book.image|book_image_url }}" alt="{{ book.book_name }}">
+
+  <h2>{{ book.book_name }}</h2>
+  <p>✍ Author: {{ book.author }}</p>
+  <p>📌 Condition: {{ book.condition or "Not mentioned" }}</p>
+  <p><strong>₹ {{ book.price }}</strong></p>
+
+  {% if book.contact_number %}
+    <p>📞 {{ book.contact_number }}</p>
+  {% endif %}
+
+  <p>{{ book.description or "No description available." }}</p>
+
+  <a class="btn secondary full-btn"
+     href="{{ url_for('add_to_cart', book_id=book.id) }}">
+     Add to Cart
+  </a>
+
+  {% if current_user.is_authenticated and current_user.id == book.user_id %}
+    <div class="detail-actions">
+      <a class="btn edit-btn" href="{{ url_for('edit_book', book_id=book.id) }}">
+        Edit Book
+      </a>
+
+      <a class="btn delete-btn"
+         href="{{ url_for('delete_book', book_id=book.id) }}"
+         onclick="return confirm('Delete this book?');">
+        Delete Book
+      </a>
+    </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

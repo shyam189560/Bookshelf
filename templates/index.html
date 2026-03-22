@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero">
+  <h2>🚀 Bookshelf — Student Marketplace</h2>
+  <p>Buy • Sell • Share Books & Notes</p>
+
+  <form method="GET" action="{{ url_for('home') }}" class="search-box">
+    <input type="text" name="q" placeholder="Search books, authors..." value="{{ request.args.get('q','') }}">
+    <button class="btn">Search</button>
+  </form>
+
+  {% if not current_user.is_authenticated %}
+    <a class="btn" href="{{ url_for('signup') }}">Get Started</a>
+  {% endif %}
+</div>
+
+<div class="latest-books-section">
+  <h3>Latest Books</h3>
+
+  <div class="latest-books-grid">
+    {% for b in books %}
+      <div class="latest-book-card">
+        <img class="latest-book-img" src="{{ b.image|book_image_url }}" alt="{{ b.book_name }}">
+
+        <h4>{{ b.book_name }}</h4>
+        <p class="small">Author: {{ b.author }}</p>
+        <p class="price">₹ {{ b.price }}</p>
+
+        {% if current_user.is_authenticated %}
+          <a class="btn secondary full-btn" href="{{ url_for('add_to_cart', book_id=b.id) }}">
+            Add to cart
+          </a>
+        {% else %}
+          <a class="btn secondary full-btn" href="{{ url_for('login') }}">
+            Login to buy
+          </a>
+        {% endif %}
+      </div>
+    {% else %}
+      <p>No books yet. Be the first to upload.</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

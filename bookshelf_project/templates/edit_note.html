@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="form-card">
+  <h2>Edit Note</h2>
+
+  <form method="POST" enctype="multipart/form-data" class="book-form">
+    <input type="text" name="title" value="{{ note.title }}" placeholder="Note Title" required>
+    <textarea name="description" placeholder="Write note description">{{ note.description or '' }}</textarea>
+
+    <label>Replace File</label>
+    <input type="file" name="file">
+
+    <button type="submit" class="btn secondary full-btn">Update Note</button>
+  </form>
+</div>
+
+{% endblock %}

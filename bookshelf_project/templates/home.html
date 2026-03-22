@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ===== SLIDER ===== -->
+<div class="slider-container">
+  <div class="slider-track" id="sliderTrack">
+    {% for b in books[:5] %}
+    <div class="slide">
+
+      <div class="slide-image">
+        <img src="{{ b.image|book_image_url }}" alt="{{ b.book_name }}">
+      </div>
+
+      <div class="slide-text">
+        <span class="badge">Featured Book</span>
+        <h2>{{ b.book_name }}</h2>
+        <p class="author">by {{ b.author }}</p>
+        <h3>₹ {{ b.price }}</h3>
+
+        <a class="btn secondary" href="{{ url_for('add_to_cart', book_id=b.id) }}">
+          Buy Now
+        </a>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ===== ABOUT SECTION ===== -->
+<div class="about-section">
+
+  <div class="about-img">
+    <img src="{{ url_for('static', filename='images/about-book.jpg') }}">
+  </div>
+
+  <div class="about-content">
+    <h2>📚 About Bookshelf</h2>
+
+    <p>
+      Bookshelf is a modern student marketplace where you can
+      <strong>buy, sell, and share books & notes</strong>.
+    </p>
+
+    <div class="features">
+
+      <div class="feature">🛒 Buy affordable used books</div>
+      <div class="feature">💰 Sell your old books</div>
+      <div class="feature">📄 Share notes easily</div>
+      <div class="feature">📞 Contact sellers directly</div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== MARKETPLACE ===== -->
+<!-- ===== MARKETPLACE ===== -->
+<div class="marketplace-header">
+  <div>
+    <h2>🚀 Marketplace</h2>
+    <p>Discover books uploaded by students.</p>
+  </div>
+</div>
+
+<div class="product-grid">
+  {% for b in books %}
+  <div class="product-card">
+    <a href="{{ url_for('book_detail', book_id=b.id) }}" class="book-link">
+      <img class="book-img" src="{{ b.image|book_image_url }}" alt="{{ b.book_name }}">
+      <h4>{{ b.book_name }}</h4>
+      <p class="small">✍ {{ b.author }}</p>
+      <p class="price">₹ {{ b.price }}</p>
+
+      {% if b.contact_number %}
+        <p class="small">📞 {{ b.contact_number }}</p>
+      {% endif %}
+    </a>
+
+    <a class="btn secondary add-cart-btn"
+       href="{{ url_for('add_to_cart', book_id=b.id) }}">
+       Add to Cart
+    </a>
+  </div>
+  {% else %}
+    <div class="empty-state">No books available yet.</div>
+  {% endfor %}
+</div>
+
+{% endblock %}

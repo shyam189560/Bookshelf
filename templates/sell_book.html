@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <h2>Sell a Book</h2>
+
+  <form method="POST" enctype="multipart/form-data">
+    <input type="text" name="book_name" placeholder="Book Name" required>
+    <input type="text" name="author" placeholder="Author Name" required>
+    <input type="number" step="0.01" name="price" placeholder="Price" required>
+    <input type="text" name="contact_number" placeholder="Contact Number">
+
+    <select name="condition">
+      <option value="">Select Condition</option>
+      <option value="Like New">Like New</option>
+      <option value="Good">Good</option>
+      <option value="Fair">Fair</option>
+      <option value="Old">Old</option>
+    </select>
+
+    <textarea name="description" placeholder="Write about the book, edition, condition, highlights, notes, etc."></textarea>
+
+    <input type="file" name="image">
+    <button type="submit" class="btn secondary">Upload Book</button>
+  </form>
+</div>
+
+{% endblock %}

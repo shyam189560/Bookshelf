@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="form-card">
+  <h2>Upload Notes</h2>
+
+  <form method="POST" enctype="multipart/form-data" class="book-form">
+    <input type="text" name="title" placeholder="Note Title" required>
+    <textarea name="description" placeholder="Write short details about the notes"></textarea>
+    <input type="file" name="file" required>
+    <button type="submit" class="btn secondary full-btn">Upload Notes</button>
+  </form>
+</div>
+
+<div class="card">
+  <h3>All Notes</h3>
+  <div class="grid">
+    {% for n in notes %}
+      <div class="card">
+        <h4>{{ n.title }}</h4>
+        <p class="small">{{ n.description or "No description" }}</p>
+        <a class="btn secondary full-btn" href="{{ url_for('download_note', filename=n.file) }}">
+          Download
+        </a>
+      </div>
+    {% else %}
+      <p>No notes uploaded yet.</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

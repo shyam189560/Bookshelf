@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="auth-bg">
+
+  <div class="auth-card">
+
+    <h2 style="text-align:center;margin-bottom:20px;">Log In</h2>
+
+    <form method="POST">
+
+      <div class="input-group">
+        <i>📧</i>
+        <input type="email" name="email" required>
+        <label>Email</label>
+      </div>
+
+      <div class="input-group">
+        <i>🔒</i>
+        <input type="password" name="password" required>
+        <label>Password</label>
+      </div>
+
+      <button class="btn">log in </button>
+
+    </form>
+
+    <!-- GOOGLE LOGIN UI -->
+   <a href="{{ url_for('google_login') }}" class="google-btn">
+  <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png">
+  Continue with Google
+</a>
+
+    <div class="auth-link">
+      <p>New to Bookshelf?</p>
+      <a href="{{ url_for('signup') }}">Sign up now</a>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

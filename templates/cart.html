@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="marketplace-header">
+  <div>
+    <h2>🛒 My Cart</h2>
+    <p>Your selected books appear here.</p>
+  </div>
+</div>
+
+<div class="product-grid">
+  {% for b in books %}
+    <div class="product-card">
+      <img class="book-img" src="{{ b.image|book_image_url }}" alt="{{ b.book_name }}">
+
+      <h4>{{ b.book_name }}</h4>
+      <p class="small">✍ {{ b.author }}</p>
+      <p class="price">₹ {{ b.price }}</p>
+
+      {% if b.contact_number %}
+        <p class="small">📞 {{ b.contact_number }}</p>
+      {% endif %}
+
+      <a class="btn secondary add-cart-btn"
+         href="{{ url_for('remove_from_cart', book_id=b.id) }}">
+         Remove
+      </a>
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <h3>Your cart is empty</h3>
+      <p>Add some books from Marketplace.</p>
+      <br>
+      <a class="btn secondary" href="{{ url_for('home') }}">Go to Marketplace</a>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
