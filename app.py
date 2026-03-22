@@ -30,9 +30,10 @@ app = Flask(__name__)
 # =========================
 # CONFIG
 # =========================
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev_secret_key")
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(BASE_DIR, "database.db")
+
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev_secret_key")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_path
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -47,15 +48,13 @@ os.makedirs(app.config["PROFILE_UPLOAD_FOLDER"], exist_ok=True)
 
 ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 ALLOWED_NOTE_EXTENSIONS = {"pdf", "doc", "docx", "ppt", "pptx"}
+
 db = SQLAlchemy()
 migrate = Migrate()
-
 
 db.init_app(app)
 migrate.init_app(app, db)
 
-with app.app_context():
-    db.create_all()
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
@@ -133,6 +132,11 @@ class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey("book.id"), nullable=False)
+
+
+# IMPORTANT: create tables only after all models are defined
+with app.app_context():
+    db.create_all()
 
 
 @login_manager.user_loader
@@ -600,6 +604,5 @@ def remove_from_cart(book_id):
 
 
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=False)
