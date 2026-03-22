@@ -48,6 +48,8 @@ ALLOWED_NOTE_EXTENSIONS = {"pdf", "doc", "docx", "ppt", "pptx"}
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+with app.app_context():
+    db.create_all()
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
