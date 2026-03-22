@@ -45,12 +45,12 @@ os.makedirs(app.config["PROFILE_UPLOAD_FOLDER"], exist_ok=True)
 
 ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 ALLOWED_NOTE_EXTENSIONS = {"pdf", "doc", "docx", "ppt", "pptx"}
-
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-with app.app_context():
-    db.create_all()
 
+@app.before_first_request
+def create_tables():
+    db.create_all()
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
